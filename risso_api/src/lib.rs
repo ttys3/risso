@@ -188,14 +188,15 @@ pub fn send_new_comment_email(title: &str, _comment: &NewComment) -> Result<(), 
         .to(SMTP_CONFIG.to.clone())
         .subject(format!("New comment on {}", title))
         .text("foo")
-        .build()?;
+        .build()?
+        .into();
 
-    let tls_parameters = ClientTlsParameters::new(String::from("foo"), TlsConnector::builder()?.build()?);
+    let tls_parameters = ClientTlsParameters::new(String::from("foo"), TlsConnector::builder().build()?);
     let mut mailer =
         //SmtpTransport::builder_unencrypted_localhost()?.build();
-        SmtpTransport::builder("blah", ClientSecurity::Wrapper(tls_parameters))?.build();
+        SmtpTransport::new(SmtpClient::new(String::from("foo"), ClientSecurity::Wrapper(tls_parameters))?);
 
-    mailer.send(&email).map(|_| ()).map_err(|err| err.into())
+    mailer.send(email).map(|_| ()).map_err(|err| err.into())
 }
 
 //--------------------------------------------------------------------------------------------------
