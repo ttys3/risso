@@ -3,7 +3,7 @@
 #
 
 # Rust compiler image - see https://github.com/clux/muslrust
-muslrust-img = clux/muslrust:1.30.0-stable
+muslrust-img = clux/muslrust:1.48.0-stable
 
 # Rust-in-Docker invocation
 # The 'muslrust-cache' volume avoids downloading the dependencies at each build.
